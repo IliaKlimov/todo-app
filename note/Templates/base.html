@@ -18,6 +18,20 @@
     {% endblock %}
 </div>
 
+<div class="wrap" style="display: none;">
+    <div class="inner todocard">
+        <form action="/" id="form_new" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <p>
+            <a id="cancel" href="#">ОТМЕНА</a>
+            <a id="ok" href="#">ОК</a>
+        </p>
+        </form>
+{#        <% end %>#}
+    </div>
+</div>
+
 {% block extrahead %}
     <script src="{% static 'js/vendor/jquery.js' %}" type="text/javascript"></script>
     <script type="text/javascript" src="{% static 'js/vendor/icheck.js' %}"></script>

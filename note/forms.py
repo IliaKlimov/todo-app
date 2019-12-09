@@ -6,4 +6,4 @@ class TodoForm(forms.ModelForm):
 
     class Meta:
         model = Todo
-        fields = ('is_done',)
+        fields = ('task','deadline','project','importance')

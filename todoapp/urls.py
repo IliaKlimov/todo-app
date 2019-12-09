@@ -18,7 +18,8 @@ from django.urls import path
 from note import views as note_views
 
 urlpatterns = [
-    path('', note_views.index),
     path('admin/', admin.site.urls),
+    path('', note_views.index),
+    path('todo/<int:todo_id>', note_views.modify_todo)
 
 ]

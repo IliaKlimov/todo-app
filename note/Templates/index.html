@@ -12,7 +12,6 @@
     </nav>
 
     <div class="container">
-        <span class="glyphicon glyphicon-star"></span>
         <div class='row'>
             {% for p in projects %}
                 <div class="col-md-6 col-lg-4 ">
@@ -22,15 +21,16 @@
                         <ul>
                             {% for t in p.todo_set.all %}
                                 <li>
-                                    <input type="checkbox" name="is_done" class="form-check-input" id="{{ todo.id }}" {% if t.is_done %} checked {% endif %}>
-                                    <span class="editable">{{ t.task }}</span>
-{#                                    <form method="put">#}
-{#                                        {% csrf_token %}#}
-{#                                        {% bootstrap_form form %}#}
-                                        {#                                    {% buttons %}#}
-                                        {#                                        <button type="submit" class="btn btn-primary">Submit</button>#}
-                                        {#                                    {% endbuttons %}#}
-{#                                    </form>#}
+                                    <form method="POST" action="/todo/{{ t.id }}">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ t.id }}" name="id">
+                                        <input type="checkbox" name="is_done" class="form-check-input"
+                                                {% if t.is_done %} checked {% endif %}>
+                                        <span class="editable">{{ t.task }}</span>
+                                        <a class="button_delete align-self-center" href="#">
+                                            <img src="static\images\delete.png">
+                                        </a>
+                                    </form>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -39,47 +39,10 @@
             {% endfor %}
         </div>
     </div>
+
+
 {% endblock %}
 
-<div class="wrap" style="display: none;">
-  <div class="inner todocard">
-    <%= form_for :todo,  :html => {:id=>'form_new'}  do |form| %>
-      <h5>НОВАЯ ЗАДАЧА</h5>
-      <hr/>
-      <p>
-        <%= form.text_field :text, placeholder:"Название задачи..." %>
-      </p>
 
-      <p>
-        <%= form.collection_select(:project_id, Project.all, :id, :title ) %>
-      </p>
-
-      <p>
-        <a id="cancel" href="#">ОТМЕНА</a>
-        <a id="ok" href="#">ОК</a>
-      </p>
-    <% end %>
-  </div>
-</div>
-{#<div class="wrap" style="display: none;">#}
-{#  <div class="inner todocard">#}
-{#    <%= form_for :todo,  :html => {:id=>'form_new'}  do |form| %>#}
-{#      <h5>НОВАЯ ЗАДАЧА</h5>#}
-{#      <hr/>#}
-{#      <p>#}
-{#        <%= form.text_field :text, placeholder:"Название задачи..." %>#}
-{#      </p>#}
-{##}
-{#      <p>#}
-{#        <%= form.collection_select(:project_id, Project.all, :id, :title ) %>#}
-{#      </p>#}
-{##}
-{#      <p>#}
-{#        <a id="cancel" href="#">ОТМЕНА</a>#}
-{#        <a id="ok" href="#">ОК</a>#}
-{#      </p>#}
-{#    <% end %>#}
-{#  </div>#}
-{#</div>#}
 
 

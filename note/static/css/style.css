@@ -142,3 +142,12 @@
  .savable{
 	 margin-bottom: 3px;
  }
+
+ .button_delete{
+	 float: right;
+	 opacity: 8%;
+
+ }
+ li:hover .button_delete {
+	 opacity: 30%
+ }

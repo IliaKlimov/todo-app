@@ -5,51 +5,97 @@ $(document).ready(function () {
     $("#cancel").click(function () {
         $(".wrap").hide();
     });
-    $(document).on("click", "#ok", function () {
-        $("#form_new").submit();
+
+    $("#form_new").submit(function (event) {
+
+        event.preventDefault(); //prevent default action POST
+        var post_url = $(this).attr("action"); //get form action url
+        var request_method = $(this).attr("method"); //get form GET/POST method
+        var form_data = $(this).serialize(); //Encode form elements for submission
+
+        $.ajax({
+            url: post_url,
+            type: request_method,
+            data: form_data
+        }).done(function (response) {
+            $(".wrap").hide();
+        }).fail(function (response) {
+            alert("Не гуд");
+        });
     });
 
-    // $('select').select2({
-    //   minimumResultsForSearch: -1,
-    //   templateResult: function (d) { return $(d.text); },
-    //   templateSelection: function (d) { return $(d.text); },
-    // });
+    $(document).on("click", "#ok", function () {
+        $("#form_new").submit()
+    });
+
+    $('body').on("click", ".button_delete", function () {
+        var form = $(this).closest('form');
+        form.submit(function (event) {
+            event.preventDefault();                 //prevent default action POST
+            var post_url = form.attr("action");     //get form action url
+            var request_method = "POST";            //get form GET/POST method
+            $(this).append('<input type="hidden" name="action" value="delete">');
+            var form_data = $(this).serializeArray();//Encode form elements for submission
+            $.ajax({
+                url: post_url,
+                type: request_method,
+                data: form_data,
+                success: function (value) {
+                    console.log("Todo Deleted");
+                    location.reload();
+                }
+            });
+        });
+        form.submit()
+    });
+
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue'
         //increaseArea: '20%' // optional
     }).on('ifToggled', event => {
-        $(event.currentTarget).closest('form').submit();
+        // var form = $(this).closest('form');
+        // form.append('<input type="hidden" name="action" value="modify">');
+        // alert(form.attr("action"))
+        // $.ajax({
+        //     type: 'POST',
+        //     url: form.attr("action"),
+        //     data: form.serialize(), // access in body
+        // });
     });
     $('input').on('ifToggled', event => {
-        $(event.currentTarget).closest('form').submit();
+        var form = $(event.currentTarget).closest('form');
+        form.append('<input type="hidden" name="action" value="modify">');
+        $.ajax({
+            type: 'POST',
+            url: form.attr("action"),
+            data: form.serialize(), // access in body
+        });
     });
 
     $('body').on('click touchstart', '.editable', function () {
-
         var t = $(this);
-        var input = $('<input>').attr('class', 'savable').val(t.text());
+        var input = $('<input>').attr('class', 'savable').attr('name', 'task').val(t.text());
         t.replaceWith(input);
         input.focus();
-
     });
 
     $('body').on('blur', '.savable', function () {
-
+        var form = $(this).closest('form');
         var input = $(this);
         var t = $('<span>').attr('class', 'editable').text(input.val());
-        let data = {}
+
+        form.append('<input type="hidden" name="action" value="modify">');
         $.ajax({
-            type: 'PUT',
-            url: '.',
-            contentType: 'application/json',
-            data: JSON.stringify(data), // access in body
-        })
+            type: 'POST',
+            url: form.attr("action"),
+            data: form.serialize(), // access in body
+        });
         input.replaceWith(t);
 
     });
 
     $('body').on('keydown', '.savable', function (e) {
-        if(e.keyCode == 13) {
+        if (e.keyCode == 13) {
             $('.savable').blur();
 
         }
