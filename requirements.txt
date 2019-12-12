@@ -1,0 +1,4 @@
+Django~=2.2.4
+beautifulsoup4==4.8.1
+django-bootstrap4==1.1.1
+soupsieve==1.9.5

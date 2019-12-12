@@ -1,24 +1,22 @@
 /* * This is a manifest file that'll be compiled into application.css, which will include all the files * listed below. * * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's * vendor/assets/stylesheets directory can be referenced here using a relative path. * * You're free to add application-wide styles to this file and they'll appear at the bottom of the * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS * files in this directory. Styles in this file should be added after the last require_* statement. * It is generally better to create a new file per style scope. * *= require_tree . *= require_self */
  @font-face {
-	 font-family: 'Open-Sans';
-	 src: font-url('OpenSans-Regular.ttf') format('truetype');
+	 font-family: 'Open Sans', sans-serif;
 	 font-weight: normal;
 	 font-style: normal;
 }
  @font-face {
 	 font-family: 'Open-Sans';
-	 src: font-url('OpenSans-Light.ttf') format('truetype');
+
 	 font-weight: 300;
 	 font-style: normal;
 }
  @font-face {
 	 font-family: 'Open-Sans';
-	 src: font-url('OpenSans-Semibold.ttf') format('truetype');
 	 font-weight: 600;
 	 font-style: normal;
 }
  body {
-	 font-family: 'Open-Sans';
+	 font-family: 'Open-Sans', sans-serif;
 	 background-color: #f0f0f0;
 }
  .container {
